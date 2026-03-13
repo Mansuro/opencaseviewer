@@ -32,6 +32,7 @@ export async function getSeriesImageIds(wadoRsRoot, studyUID, seriesUID) {
 
   return instances.map((instance) => {
     const sopUID = instance[SOP_INSTANCE_UID_TAG]?.Value?.[0]
+    if (!sopUID) throw new Error(`Instance at index ${i} is missing SOPInstanceUID`)
     const imageId = `wadors:${wadoRsRoot}/studies/${studyUID}/series/${seriesUID}/instances/${sopUID}/frames/1`
     // Register per-instance metadata so Cornerstone can decode pixel/spacing info
     wadors.metaDataManager.add(imageId, instance)
