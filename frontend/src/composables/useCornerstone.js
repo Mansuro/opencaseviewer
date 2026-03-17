@@ -27,12 +27,16 @@ export async function initCornerstone() {
 export async function getSeriesImageIds(wadoRsRoot, studyUID, seriesUID) {
   const url = `${wadoRsRoot}/studies/${studyUID}/series/${seriesUID}/metadata`
   const res = await fetch(url, { headers: { Accept: 'application/dicom+json' } })
-  if (!res.ok) throw new Error(`Failed to fetch metadata: ${res.status}`)
+  if (!res.ok) {
+    throw new Error(`Failed to fetch metadata: ${res.status}`)
+  }
   const instances = await res.json()
 
   return instances.map((instance) => {
     const sopUID = instance[SOP_INSTANCE_UID_TAG]?.Value?.[0]
-    if (!sopUID) throw new Error(`Instance at index ${i} is missing SOPInstanceUID`)
+    if (!sopUID) {
+      throw new Error(`Instance at index ${i} is missing SOPInstanceUID`)
+    }
     const imageId = `wadors:${wadoRsRoot}/studies/${studyUID}/series/${seriesUID}/instances/${sopUID}/frames/1`
     // Register per-instance metadata so Cornerstone can decode pixel/spacing info
     wadors.metaDataManager.add(imageId, instance)
