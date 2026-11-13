@@ -3,6 +3,13 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+
+var require = createRequire(import.meta.url);
+var module = { exports: {} };
+
 
 // esbuild plugin that stubs Node.js 'zlib' for browser pre-bundling of dicom-parser
 const zlibStub = {
@@ -44,4 +51,4 @@ export default defineConfig({
       plugins: [zlibStub],
     },
   },
-})
+});

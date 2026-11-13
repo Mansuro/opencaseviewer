@@ -1,7 +1,7 @@
 <template>
   <div class="dicom-viewport">
-    <div v-if="error" class="error">{{ error }}</div>
-    <div v-else-if="loading" class="loading">Loading DICOM...</div>
+    <div v-show="error" class="error">{{ error }}</div>
+    <div v-show="loading && !error" class="loading">Loading DICOM...</div>
     <div ref="elementRef" class="viewport-element" />
   </div>
 </template>
